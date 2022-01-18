@@ -84,7 +84,6 @@ export const globalStyles = css`
       text-transform: capitalize;
       cursor: pointer;
       margin-bottom: 0;
-      line-height: 0;
 
       @media screen and (min-width: ${variables.breakpoints.desktop}px) {
          font-size: 18px;

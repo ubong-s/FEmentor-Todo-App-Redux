@@ -12,7 +12,13 @@ import {
 } from '../images';
 import { variables } from '../styles/globalStyles';
 
-const TopSection = ({ toggleTheme, addItem, darkMode }) => {
+const TopSection = ({
+   toggleTheme,
+   addItem,
+   darkMode,
+   allTasks,
+   filteredTasks,
+}) => {
    const [input, setInput] = useState('');
    const [error, setError] = useState({ status: false, msg: '' });
    const [success, setSuccess] = useState({ status: false, msg: '' });
@@ -42,6 +48,10 @@ const TopSection = ({ toggleTheme, addItem, darkMode }) => {
          clearTimeout(timer);
       };
    }, [error, success]);
+
+   useEffect(() => {
+      localStorage.setItem('tasks', JSON.stringify(allTasks));
+   }, [allTasks, filteredTasks]);
 
    return (
       <TopRoot darkMode={darkMode}>
@@ -84,13 +94,18 @@ const TopSection = ({ toggleTheme, addItem, darkMode }) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
    const toggleTheme = () => dispatch({ type: TOGGLE_THEME });
+
    const addItem = (input) => dispatch({ type: ADD_ITEM, payload: { input } });
 
    return { toggleTheme, addItem };
 };
 
 const mapStateToProps = (state) => {
-   return { darkMode: state.darkMode };
+   return {
+      darkMode: state.darkMode,
+      allTasks: state.allTasks,
+      filteredTasks: state.filteredTasks,
+   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopSection);
@@ -151,7 +166,7 @@ const TopRoot = styled.section`
             }
 
             &.success {
-               color: green;
+               color: ${(props) => props.theme.blue};
             }
          }
 

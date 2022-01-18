@@ -1,13 +1,30 @@
 import styled from '@emotion/styled';
-import React from 'react';
 import { connect } from 'react-redux';
 import { MARK_COMPLETE, DELETE_ITEM } from '../action';
 import { check, cross } from '../images';
 import { variables } from '../styles/globalStyles';
 
-const ToDoItem = ({ item, deleteItem, markComplete }) => {
+const ToDoItem = ({
+   item,
+   deleteItem,
+   markComplete,
+   index,
+   dragStart,
+   dragOver,
+   dragDrop,
+   dragLeave,
+   dragEnd,
+}) => {
    return (
-      <ItemRoot>
+      <ItemRoot
+         draggable
+         onDragStart={dragStart}
+         onDragOver={dragOver}
+         onDrop={dragDrop}
+         onDragLeave={dragLeave}
+         onDragEnd={dragEnd}
+         data-index={index}
+      >
          <button
             className={
                item.status === 'completed'
@@ -18,10 +35,7 @@ const ToDoItem = ({ item, deleteItem, markComplete }) => {
          >
             {item.status === 'completed' && <img src={check} alt='' />}
          </button>
-         <p
-            className={item.status === 'completed' ? 'complete' : undefined}
-            onClick={() => markComplete(item.id)}
-         >
+         <p className={item.status === 'completed' ? 'complete' : undefined}>
             {item.title}
          </p>
          <button className='btn delete-btn' onClick={() => deleteItem(item.id)}>
@@ -47,7 +61,21 @@ const ItemRoot = styled.li`
    align-items: center;
    gap: 1rem;
    padding: 1.5rem;
+   background: ${(props) => props.theme.bodyAlt};
    border-bottom: 0.5px solid ${(props) => props.theme.btn};
+   transition: ${variables.misc.transitionEase};
+   cursor: grab;
+
+   &.hide {
+      opacity: 0;
+      height: 0;
+      padding: 0;
+   }
+
+   &.over {
+      background: ${(props) => props.theme.body};
+      color: ${(props) => props.theme.body};
+   }
 
    .circle {
       border-radius: 50%;
@@ -62,7 +90,6 @@ const ItemRoot = styled.li`
 
    p {
       margin-bottom: 0;
-      cursor: pointer;
 
       &.complete {
          color: ${(props) => props.theme.btn};

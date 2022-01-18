@@ -3,12 +3,22 @@ import { reducer } from './reducer';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-// initialStore
+const getLocalStorage = () => {
+   let items = localStorage.getItem('tasks');
+   if (items) {
+      return JSON.parse(localStorage.getItem('tasks'));
+   } else {
+      return [];
+   }
+};
 
+// initialStore
 const initialStore = {
    darkMode: true,
-   allTasks: [],
-   filteredTasks: [],
+   allTasks: getLocalStorage(),
+   filteredTasks: getLocalStorage(),
+   startIndex: null,
+   endIndex: null,
 };
 
 // store

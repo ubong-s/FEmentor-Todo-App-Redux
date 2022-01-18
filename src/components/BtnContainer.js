@@ -3,29 +3,27 @@ import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 import { FILTER_TASKS } from '../action';
 
-const BtnContainer = ({ filterTasks }) => {
-   const [current, setCurrent] = useState('All');
-
+const BtnContainer = ({ filterTasks, filterValue }) => {
    return (
       <BtnContainerRoot
          onClick={(e) => {
-            filterTasks(e.target.textContent);
-            setCurrent(e.target.textContent);
+            let value = e.target.textContent;
+            filterTasks(value);
          }}
       >
          <button
             data-btn='All'
-            className={current === 'All' ? 'btn active' : 'btn'}
+            className={filterValue === 'All' ? 'btn active' : 'btn'}
          >
             All
          </button>
          <button
             data-btn='Active'
-            className={current === 'Active' ? 'btn active' : 'btn'}
+            className={filterValue === 'Active' ? 'btn active' : 'btn'}
          >
             Active
          </button>
-         <button className={current === 'Completed' ? 'btn active' : 'btn'}>
+         <button className={filterValue === 'Completed' ? 'btn active' : 'btn'}>
             Completed
          </button>
       </BtnContainerRoot>
@@ -38,8 +36,11 @@ const mapDispatchToProps = (dispatch) => {
 
    return { filterTasks };
 };
+const mapStateToProps = (state) => {
+   return { filterValue: state.filter };
+};
 
-export default connect(null, mapDispatchToProps)(BtnContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(BtnContainer);
 
 const BtnContainerRoot = styled.div`
    display: flex;

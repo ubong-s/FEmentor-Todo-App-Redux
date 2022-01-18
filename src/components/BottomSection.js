@@ -1,13 +1,54 @@
 import styled from '@emotion/styled';
-import { connect } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { BtnContainer, ToDoItem } from '.';
-import { CLEAR_COMPLETED } from '../action';
+import { CLEAR_COMPLETED, SORT_TASKS, UPDATE_SORT } from '../action';
 import { variables } from '../styles/globalStyles';
 
 const BottomSection = ({ filteredTasks, allTasks, clearCompleted }) => {
+   const dispatch = useDispatch();
+   const [start, setStart] = useState(null);
+   const [end, setEnd] = useState(null);
+
+   const dragDrop = (e) => {
+      e.currentTarget.classList.remove('over');
+      let endValue = +e.currentTarget.dataset.index;
+      setEnd(endValue);
+   };
+
+   const dragStart = (e) => {
+      let startValue = +e.currentTarget.dataset.index;
+      setStart(startValue);
+   };
+
+   const dragEnd = (e) => {
+      e.currentTarget.classList.remove('hide');
+   };
+
+   const dragOver = (e) => {
+      e.currentTarget.classList.add('over');
+      e.preventDefault();
+   };
+
+   const dragLeave = (e) => {
+      e.currentTarget.classList.remove('over');
+   };
+
    const activeCount = allTasks.filter(
       (item) => item.status === 'active'
    ).length;
+
+   useEffect(() => {
+      dispatch({ type: UPDATE_SORT, payload: { start, end } });
+      setEnd(null);
+      setEnd(null);
+      // eslint-disable-next-line
+   }, [start, end]);
+
+   useEffect(() => {
+      dispatch({ type: SORT_TASKS });
+      // eslint-disable-next-line
+   }, [start, end]);
 
    return (
       <>
@@ -25,14 +66,23 @@ const BottomSection = ({ filteredTasks, allTasks, clearCompleted }) => {
                         <p>Empty</p>
                      </div>
                   ) : (
-                     <ul>
+                     <ul className='list'>
                         {filteredTasks.map((item, index) => (
-                           <ToDoItem item={item} key={index} />
+                           <ToDoItem
+                              item={item}
+                              key={index}
+                              index={index}
+                              dragStart={dragStart}
+                              dragDrop={dragDrop}
+                              dragLeave={dragLeave}
+                              dragOver={dragOver}
+                              drag={dragEnd}
+                           />
                         ))}
                      </ul>
                   )}
                   <div className='footer'>
-                     <p>{activeCount} active items left</p>
+                     <p>{activeCount} items left</p>
                      <div className='desktop'>
                         <BtnContainer />
                      </div>
@@ -44,14 +94,19 @@ const BottomSection = ({ filteredTasks, allTasks, clearCompleted }) => {
                <div className='mobile btn-group container'>
                   <BtnContainer />
                </div>
+               <div className='drag container'>
+                  <p>Drag and drop to reorder list</p>
+               </div>
             </BottomRoot>
          )}
       </>
    );
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
    const clearCompleted = () => dispatch({ type: CLEAR_COMPLETED });
+   // const sortTasks = (start, end) =>
+   //    dispatch({ type: SORT_TASKS, payload: { start, end } });
 
    return { clearCompleted };
 };
@@ -80,6 +135,7 @@ const BottomRoot = styled.section`
       align-items: center;
       justify-content: center;
       height: 100px;
+      border-bottom: 0.5px solid ${(props) => props.theme.btn};
    }
 
    .footer {
@@ -101,6 +157,15 @@ const BottomRoot = styled.section`
       padding: 2rem 1.5rem;
       background: ${(props) => props.theme.bodyAlt};
       border-radius: 5px;
+   }
+
+   .drag {
+      margin-top: 4rem;
+      text-align: center;
+
+      p {
+         color: ${(props) => props.theme.btn};
+      }
    }
 
    .desktop {

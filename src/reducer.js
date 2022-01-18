@@ -5,6 +5,8 @@ import {
    MARK_COMPLETE,
    CLEAR_COMPLETED,
    FILTER_TASKS,
+   SORT_TASKS,
+   UPDATE_SORT,
 } from './action';
 
 export const reducer = (state, action) => {
@@ -28,6 +30,7 @@ export const reducer = (state, action) => {
          ...state,
          allTasks: [...state.allTasks, newItem],
          filteredTasks: [...state.allTasks, newItem],
+         filter: 'All',
       };
    }
 
@@ -94,6 +97,37 @@ export const reducer = (state, action) => {
          ...state,
          filteredTasks: tempItems,
          filter: input,
+      };
+   }
+
+   if (action.type === UPDATE_SORT) {
+      const { start, end } = action.payload;
+
+      return {
+         ...state,
+         startIndex: start,
+         endIndex: end,
+      };
+   }
+
+   if (action.type === SORT_TASKS) {
+      let { startIndex, endIndex } = state;
+      let tempItems = [...state.allTasks];
+      let tempPerson = tempItems[state.startIndex];
+
+      if (
+         (startIndex && endIndex) ||
+         (startIndex === 0 && endIndex) ||
+         (startIndex && endIndex === 0)
+      ) {
+         tempItems.splice(startIndex, 1);
+         tempItems.splice(endIndex, 0, tempPerson);
+      }
+
+      return {
+         ...state,
+         allTasks: tempItems,
+         filteredTasks: tempItems,
       };
    }
 
