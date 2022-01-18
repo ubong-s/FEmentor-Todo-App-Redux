@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
 import { FILTER_TASKS } from '../action';
