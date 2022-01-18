@@ -17,6 +17,7 @@ const initialStore = {
    darkMode: true,
    allTasks: getLocalStorage(),
    filteredTasks: getLocalStorage(),
+   filter: 'All',
    startIndex: null,
    endIndex: null,
 };

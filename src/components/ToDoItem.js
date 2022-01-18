@@ -62,7 +62,7 @@ const ItemRoot = styled.li`
    gap: 1rem;
    padding: 1.5rem;
    background: ${(props) => props.theme.bodyAlt};
-   border-bottom: 0.5px solid ${(props) => props.theme.btn};
+   border-bottom: 0.5px solid ${(props) => props.theme.check};
    transition: ${variables.misc.transitionEase};
    cursor: grab;
 

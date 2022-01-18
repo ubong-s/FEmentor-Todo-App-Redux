@@ -5,8 +5,8 @@ export const theme = {
       bodyAlt: `hsl(235, 24%, 19%)`,
       text: `hsl(234, 39%, 85%)`,
       textHover: `hsl(236, 33%, 92%)`,
-      btn: `hsl(233, 14%, 35%)`,
-      check: `hsl(234, 11%, 52%)`,
+      btn: `hsl(234, 11%, 52%)`,
+      check: `hsl(233, 14%, 35%)`,
       clearText: `hsl(237, 14%, 26%)`,
       gradient: `linear-gradient(
             to right,

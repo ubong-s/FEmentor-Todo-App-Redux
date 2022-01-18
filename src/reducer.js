@@ -77,6 +77,7 @@ export const reducer = (state, action) => {
          ...state,
          allTasks: tempItems,
          filteredTasks: tempItems,
+         filter: 'All',
       };
    }
 
