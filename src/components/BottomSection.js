@@ -59,6 +59,7 @@ const BottomSection = ({ state, clearCompleted }) => {
 
    useEffect(() => {
       dispatch({ type: FILTER_TASKS });
+      // eslint-disable-next-line
    }, [filter, allTasks]);
 
    return (
