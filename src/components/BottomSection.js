@@ -49,18 +49,15 @@ const BottomSection = ({ state, clearCompleted }) => {
       dispatch({ type: UPDATE_SORT, payload: { start, end } });
       setEnd(null);
       setEnd(null);
-      console.log('Update sort');
       // eslint-disable-next-line
    }, [start, end]);
 
    useEffect(() => {
       dispatch({ type: SORT_TASKS });
-      console.log('Sort tasks');
       // eslint-disable-next-line
    }, [start, end]);
 
    useEffect(() => {
-      console.log('filter tasks');
       dispatch({ type: FILTER_TASKS });
    }, [filter, allTasks]);
 
