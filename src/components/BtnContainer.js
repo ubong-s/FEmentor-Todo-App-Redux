@@ -1,29 +1,29 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
-import { FILTER_TASKS } from '../action';
+import { UPDATE_FILTER } from '../action';
 
-const BtnContainer = ({ filterTasks, filterValue }) => {
+const BtnContainer = ({ updateFilter, filter }) => {
    return (
       <BtnContainerRoot
          onClick={(e) => {
             let value = e.target.textContent;
-            filterTasks(value);
+            updateFilter(value);
          }}
       >
          <button
             data-btn='All'
-            className={filterValue === 'All' ? 'btn active' : 'btn'}
+            className={filter === 'All' ? 'btn active' : 'btn'}
          >
             All
          </button>
          <button
             data-btn='Active'
-            className={filterValue === 'Active' ? 'btn active' : 'btn'}
+            className={filter === 'Active' ? 'btn active' : 'btn'}
          >
             Active
          </button>
-         <button className={filterValue === 'Completed' ? 'btn active' : 'btn'}>
+         <button className={filter === 'Completed' ? 'btn active' : 'btn'}>
             Completed
          </button>
       </BtnContainerRoot>
@@ -31,13 +31,13 @@ const BtnContainer = ({ filterTasks, filterValue }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-   const filterTasks = (input) =>
-      dispatch({ type: FILTER_TASKS, payload: { input } });
+   const updateFilter = (input) =>
+      dispatch({ type: UPDATE_FILTER, payload: { input } });
 
-   return { filterTasks };
+   return { updateFilter };
 };
 const mapStateToProps = (state) => {
-   return { filterValue: state.filter };
+   return { filter: state.filter };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BtnContainer);

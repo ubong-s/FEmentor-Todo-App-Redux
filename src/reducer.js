@@ -7,6 +7,7 @@ import {
    FILTER_TASKS,
    SORT_TASKS,
    UPDATE_SORT,
+   UPDATE_FILTER,
 } from './action';
 
 export const reducer = (state, action) => {
@@ -81,23 +82,27 @@ export const reducer = (state, action) => {
       };
    }
 
-   if (action.type === FILTER_TASKS) {
+   if (action.type === UPDATE_FILTER) {
       const { input } = action.payload;
 
-      let tempItems;
+      return {
+         ...state,
+         filter: input,
+      };
+   }
 
-      if (input === 'All') {
-         tempItems = [...state.allTasks];
-      } else {
+   if (action.type === FILTER_TASKS) {
+      let tempItems = [...state.allTasks];
+
+      if (state.filter !== 'All' && state.filter) {
          tempItems = state.allTasks.filter(
-            (item) => item.status === input.toLowerCase()
+            (item) => item.status === state.filter.toLowerCase()
          );
       }
 
       return {
          ...state,
          filteredTasks: tempItems,
-         filter: input,
       };
    }
 

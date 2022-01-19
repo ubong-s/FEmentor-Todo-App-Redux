@@ -2,11 +2,18 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { BtnContainer, ToDoItem } from '.';
-import { CLEAR_COMPLETED, SORT_TASKS, UPDATE_SORT } from '../action';
+import {
+   CLEAR_COMPLETED,
+   FILTER_TASKS,
+   SORT_TASKS,
+   UPDATE_SORT,
+} from '../action';
 import { variables } from '../styles/globalStyles';
 
-const BottomSection = ({ filteredTasks, allTasks, clearCompleted }) => {
+const BottomSection = ({ state, clearCompleted }) => {
    const dispatch = useDispatch();
+   const { filteredTasks, allTasks, filter } = state;
+
    const [start, setStart] = useState(null);
    const [end, setEnd] = useState(null);
 
@@ -42,13 +49,20 @@ const BottomSection = ({ filteredTasks, allTasks, clearCompleted }) => {
       dispatch({ type: UPDATE_SORT, payload: { start, end } });
       setEnd(null);
       setEnd(null);
+      console.log('Update sort');
       // eslint-disable-next-line
    }, [start, end]);
 
    useEffect(() => {
       dispatch({ type: SORT_TASKS });
+      console.log('Sort tasks');
       // eslint-disable-next-line
    }, [start, end]);
+
+   useEffect(() => {
+      console.log('filter tasks');
+      dispatch({ type: FILTER_TASKS });
+   }, [filter, allTasks]);
 
    return (
       <>
@@ -112,7 +126,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
-   return { filteredTasks: state.filteredTasks, allTasks: state.allTasks };
+   return { state };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BottomSection);
