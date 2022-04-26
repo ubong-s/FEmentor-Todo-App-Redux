@@ -1,5 +1,7 @@
 # Frontend Mentor Challenge - Todo app
 
+Live Link [FE Mentor Todo App](https://devubong-todo-redux.netlify.app/)
+
 ![Design preview for the Todo app coding challenge](./src/design/desktop-preview.jpg)
 
 ## About this project
@@ -28,7 +30,7 @@ Users should be able to:
 
 -  State management with Redux [Example Code 1](https://github.com/ubong-s/FEmentor-Todo-App-Redux/blob/main/src/App.js) [Example Code 2](https://github.com/ubong-s/FEmentor-Todo-App-Redux/blob/main/src/reducer.js)
 -  Responsive CSS using `@emotion/styled` [Example Code](https://github.com/ubong-s/FEmentor-Todo-App-Redux/blob/main/src/styles/globalStyles.js)
--  [Reducer](https://github.com/ubong-s/FEmentor-Todo-App-Redux/blob/main/src/reducer.js) component to handle actions disptached
+-  Reducer component to handle actions disptached [Code](https://github.com/ubong-s/FEmentor-Todo-App-Redux/blob/main/src/reducer.js)
 -  Local Storage is implemented to save state history
 -  Items can be reordered on the list
 
